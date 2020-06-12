@@ -9,13 +9,13 @@ Author: Michael Krause <michael@krause-software.de>
 Fixes by: Ero Carrera <ero@dkbza.org>
 """
 
-from __future__ import division, print_function
+
 
 __author__ = ['Michael Krause', 'Ero Carrera']
 __license__ = 'MIT'
 
 import sys
-import pydot
+from . import pydot
 import codecs
 
 from pyparsing import __version__ as pyparsing_version
@@ -132,7 +132,7 @@ def update_parent_graph_hierarchy(g, parent_graph=None, level=0):
         if key_name not in item_dict:
             continue
 
-        for key, objs in item_dict[key_name].items():
+        for key, objs in list(item_dict[key_name].items()):
             for obj in objs:
                 if 'parent_graph' in obj and obj['parent_graph'].get_parent_graph() == g:
                     if obj['parent_graph'] is g:
@@ -153,7 +153,7 @@ def update_parent_graph_hierarchy(g, parent_graph=None, level=0):
 
 def add_defaults(element, defaults):
     d = element.__dict__
-    for key, value in defaults.items():
+    for key, value in list(defaults.items()):
         if not d.get(key):
             d[key] = value
 

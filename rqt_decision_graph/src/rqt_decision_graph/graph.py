@@ -28,13 +28,14 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
-import pydot
+from . import pydot
 
 
 class Graph(object):
 
     @staticmethod
     def __read_dot_data_from_file(path):
+        print ('dot file : ', path)
         try:
             with open(path, 'r') as file_handler:
                 return file_handler.read()
@@ -51,7 +52,7 @@ class Graph(object):
         self.source = source
 
     def load(self):
-        print 'Reading dot data from', self.source
+        print('Reading dot data from', self.source)
         self._create_dot_from_file(self.source)
 
     def _create_dot_from_file(self, dot_file_path):

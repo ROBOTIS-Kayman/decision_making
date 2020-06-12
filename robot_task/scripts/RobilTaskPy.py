@@ -7,7 +7,7 @@ import rospy
 import actionlib
 import robot_task.msg
 from multi_goal_action_server import *
-import thread
+import _thread
 
 RobotTask_SUCCESS = 0
 RobotTask_PLAN = -1
@@ -37,7 +37,7 @@ def parseParameters(params):
 		endi=-1
 		counter=0
 		#print '>>>',s,':',to,':',tc,':',si
-		for i in xrange(si, len(s)):
+		for i in range(si, len(s)):
 			c = s[i]
 			#print "    ",c,"-",i,'[',(counter==0),(c==to),(c==tc),']',
 			if c==to:
@@ -112,7 +112,7 @@ class RobotTask(object):
 		rospy.loginfo('%s: Task object created' % self._action_name)
 
 	def currentGoal(self):
-		return self._goals[thread.get_ident()]
+		return self._goals[_thread.get_ident()]
 		
 	def finish(self, res):
 		#print "[dan] finish task"
@@ -139,13 +139,13 @@ class RobotTask(object):
 	def abstract_task(self, goal):
 		#print "[dan] start abstract task"
 		rospy.loginfo('%s: Task Started' % self._action_name)
-		self._goals[thread.get_ident()]=goal
+		self._goals[_thread.get_ident()]=goal
 		arguments = parseParameters(goal.get_goal().parameters)
 		rospy.loginfo('%s: ... name=%s, id=%s, args=%s' , self._action_name , goal.get_goal().name , goal.get_goal().uid , str(arguments))
 		res = self.task(goal.get_goal().name, goal.get_goal().uid, arguments)
 		if rospy.is_shutdown(): return
 		self.finish(res)
-		del self._goals[thread.get_ident()]
+		del self._goals[_thread.get_ident()]
 	
 	def task(self, name, uid, parameters):
 		#print "[dan] Empty Task"

@@ -28,7 +28,7 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
-from __future__ import division
+
 
 from python_qt_binding.QtCore import Qt, QPointF
 from python_qt_binding.QtGui import QBrush, QPainterPath, QPen, QPolygonF

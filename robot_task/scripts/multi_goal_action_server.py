@@ -83,7 +83,7 @@ class MQIterator:
 		self.idx+=n
 	def dec(self, n=1):
 		self.idx-=n
-	def next(self):
+	def __next__(self):
 		return MQIterator(self.mq,self.idx+1)
 	def prev(self):
 		return MQIterator(self.mq,self.idx-1)
@@ -109,7 +109,7 @@ class GoalQueue:
 		try:
 			#rospy.loginfo("[dan] Start search Goal : %s in %s", str(obj.goal.get_goal_id().id), str([x.goal.get_goal_id().id for x in self.queue]));
 			i=[x.goal.get_goal_id().id for x in self.queue].index(obj.goal.get_goal_id().id)
-		except ValueError, e:
+		except ValueError as e:
 			#rospy.loginfo("[dan] ... not found")
 			return MQIterator(self,len(self.queue))
 		#rospy.loginfo("[dan] ... found i=%s", str(i))
@@ -153,7 +153,7 @@ class RunExecuteCallback(threading.Thread):
 							"This is a bug in your ActionServer implementation. Fix your code!  "+
 							"For now, the ActionServer will set this goal to aborted");
 				self.server.set_aborted(self.goal, None, "No terminal state was set.");
-		except Exception, ex:
+		except Exception as ex:
 			rospy.logerr("Exception in your execute callback: %s\n%s", str(ex), traceback.format_exc())
 			self.server.set_aborted(self.goal, None, "Exception in execute callback: %s" % str(ex))
 
@@ -249,7 +249,7 @@ class MGActionServer:
 			goal.set_succeeded(result, text);
 			self.requestPreemption(goal)
 			self.execute_condition.release();
-		except Exception, e:
+		except Exception as e:
 			rospy.logerr("MGActionServer.set_succeeded - exception %s",str(e))
 			self.execute_condition.release();
 
@@ -264,7 +264,7 @@ class MGActionServer:
 			goal.set_aborted(result, text);
 			self.requestPreemption(goal)
 			self.execute_condition.release();
-		except Exception, e:
+		except Exception as e:
 			rospy.logerr("MGActionServer.set_aborted - exception %s",str(e))
 			self.execute_condition.release();
 
@@ -282,7 +282,7 @@ class MGActionServer:
 			goal.set_canceled(result, text);
 			self.requestPreemption(goal)
 			self.execute_condition.release();
-		except Exception, e:
+		except Exception as e:
 			rospy.logerr("MGActionServer.set_preempted - exception %s",str(e))
 			self.execute_condition.release();
 
@@ -303,7 +303,7 @@ class MGActionServer:
 			self.execute_condition.notify();
 			self.execute_condition.release();
 			
-		except Exception, e:
+		except Exception as e:
 			rospy.logerr("MGActionServer.internal_goal_callback - exception %s",str(e))
 			self.excondition.release();
 
@@ -321,7 +321,7 @@ class MGActionServer:
 			
 			self.requestPreemption(goal)
 			self.execute_condition.release();
-		except Exception, e:
+		except Exception as e:
 			rospy.logerr("MGActionServer.internal_preempt_callback - exception %s",str(e))
 			self.execute_condition.release();
 			

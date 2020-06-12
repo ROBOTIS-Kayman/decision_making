@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(decision_making)
 
+add_compile_options(-std=c++11)
+
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
@@ -12,6 +14,7 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
 )
 
+find_package(Boost REQUIRED)
 #find_package(robot_task REQUIRED)
 
 
@@ -88,7 +91,7 @@ catkin_package(
   INCLUDE_DIRS include
   LIBRARIES decision_making_ros
   CATKIN_DEPENDS roscpp robot_task diagnostic_updater std_msgs
-#  DEPENDS system_lib
+  DEPENDS boost
 )
 
 ###########
@@ -101,6 +104,7 @@ catkin_package(
 include_directories(
   include/decision_making
   ${catkin_INCLUDE_DIRS}
+  ${Boost_INCLUDE_DIRS}
 )
 
 ## Declare a cpp library
@@ -111,11 +115,11 @@ include_directories(
 ## Declare a cpp executable
 
 add_executable(bt_example src/BTExample.cpp)
-target_link_libraries(bt_example  ${catkin_LIBRARIES} )
+target_link_libraries(bt_example  ${catkin_LIBRARIES} ${Boost_LIBRARIES})
 
 
 add_executable(tao_example src/TAOExample.cpp)
-target_link_libraries(tao_example ${catkin_LIBRARIES} )
+target_link_libraries(tao_example ${catkin_LIBRARIES} ${Boost_LIBRARIES})
 
 
 #add_executable(mult_hyb_example src/multifiles/HybridExample.cpp)
@@ -126,10 +130,10 @@ target_link_libraries(tao_example ${catkin_LIBRARIES} )
 
 add_library(decision_making_ros src/ROSTask.cpp)
 add_dependencies(decision_making_ros robot_task_gencpp)
-target_link_libraries(decision_making_ros ${catkin_LIBRARIES} )
+target_link_libraries(decision_making_ros ${catkin_LIBRARIES} ${Boost_LIBRARIES})
 
 add_executable(ros_example src/RosExample.cpp)
-target_link_libraries(ros_example ${catkin_LIBRARIES} decision_making_ros)
+target_link_libraries(ros_example ${catkin_LIBRARIES} ${Boost_LIBRARIES} decision_making_ros)
 
 #=======================================================================
 
@@ -154,12 +158,12 @@ target_link_libraries(ros_example ${catkin_LIBRARIES} decision_making_ros)
 
 
 decision_making_parsing(
-	src/RosExample.cpp
-	src/BTExample.cpp
-	src/ROSTask.cpp
-	src/FSMExample.cpp
-	src/HybridExample.cpp
-)  
+  src/RosExample.cpp
+  src/BTExample.cpp
+  src/ROSTask.cpp
+  src/FSMExample.cpp
+  src/HybridExample.cpp
+)
 
     
 #=======================================================================

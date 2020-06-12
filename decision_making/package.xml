@@ -50,7 +50,8 @@
   <build_depend>robot_task</build_depend>
   <build_depend>diagnostic_updater</build_depend>
   <build_depend>decision_making_parsing</build_depend>
-  
+  <build_depend>boost</build_depend>
+
   <run_depend>actionlib_msgs</run_depend>
   <run_depend>actionlib</run_depend>
   <run_depend>roscpp</run_depend>
@@ -59,6 +60,7 @@
   <run_depend>message_generation</run_depend>
   <run_depend>robot_task</run_depend>
   <run_depend>diagnostic_updater</run_depend>
+  <build_depend>boost</build_depend>
 
 
   <!-- The export tag contains other, unspecified, tags -->

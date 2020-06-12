@@ -54,8 +54,8 @@ static std::ostream& operator<<(std::ostream& out, const TaskResult& res){
 	return out<<"UNKNOWN,"<<res.error()<<","<<res.what()<<"}";
 }
 
-static string str(const TaskResult& res){
-	stringstream s; s<<res; return s.str();
+static std::string str(const TaskResult& res){
+  std::stringstream s; s<<res; return s.str();
 }
 
 }

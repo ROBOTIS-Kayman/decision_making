@@ -286,7 +286,7 @@ def graph_gen_edges(xml, node, graph, elem, ids, fsm=None):
 			dst_state = find_state(node, dst_state_id)
 			dst = None
 			if dst_state == None:
-				print "ERROR: dst_state == None", dst_state_id
+				print("ERROR: dst_state == None", dst_state_id)
 			else:
 				dst = find_simple_node(dst_state)
 				gr_edge = pydot.Edge(src_state_id, ids[dst])
@@ -301,7 +301,7 @@ def graph_gen_edges(xml, node, graph, elem, ids, fsm=None):
 			dst_state = find_state(fsm, dst_state_id)
 			dst = None
 			if dst_state == None:
-				print "ERROR: dst_state == None"
+				print("ERROR: dst_state == None")
 			else:
 				dst = find_simple_node(dst_state)
 				gr_edge = pydot.Edge(ids[src], ids[dst])
@@ -360,23 +360,23 @@ if __name__ == '__main__':
 		sys.exit('Usage: %s projectName destinationFolder [...xmlFiles]' % sys.argv[0])
 
 	if options.verbose is () or options.info is ():
-		print "  -- project location is",args[0]
-		print "  -- share folder is",args[1]
+		print("  -- project location is",args[0])
+		print("  -- share folder is",args[1])
 	if options.verbose is ():
-		print "  -- FILES: ",'\n'.join(args[2:])
-	print "-- Start decision making xml parsing"
+		print("  -- FILES: ",'\n'.join(args[2:]))
+	print("-- Start decision making xml parsing")
 	try:
 		for fileXML in args[2].split(";"):
 			fileName = path_leaf(fileXML)
 			filetype = fileXML[-len("XXxml"):]
 			if options.verbose is ():
-				print fileXML, fileName,filetype
+				print(fileXML, fileName,filetype)
 			xml = ET.parse(fileXML).getroot()
 			graph = pydot.Dot(graph_type='digraph', compound='true')
 			graph.set_node_defaults(shape="box");
 			map_ids = map_all_ids(xml)
 			if options.verbose is ():
-				for k,v in map_ids.items(): print k,":",v
+				for k,v in list(map_ids.items()): print(k,":",v)
 			graph_gen_nodes(xml, xml, graph, graph, map_ids)
 			graph_gen_edges(xml, xml, graph, graph, map_ids)
 			
@@ -384,7 +384,7 @@ if __name__ == '__main__':
 			
 			graph.write_raw(args[1] + os.sep + fname + ".dot")
 	except:
-		print "  -- Unexpected error (",fileXML,"):", sys.exc_info()
+		print("  -- Unexpected error (",fileXML,"):", sys.exc_info())
 		import traceback
 		traceback.print_exc()
-	print "-- End decision making xml parsing"
+	print("-- End decision making xml parsing")

@@ -28,7 +28,7 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
-from __future__ import division
+
 from os import path
 from threading import Lock
 from python_qt_binding import loadUi
@@ -95,18 +95,18 @@ class GraphWidget(QWidget):
         if key not in self.decision_graphs:
             try:
                 self._add_graph(key, data)
-                print 'INFO: Graph has been added'
+                print('INFO: Graph has been added')
             except GraphParseException as ex:
-                print 'ERROR: Failed to load graph: %s', ex.message
+                print(('ERROR: Failed to load graph: %s', ex.message))
         else:
             self.states[key] = data['name'], data['status']
 
             if self.decision_graphs[key].graph_id != message.status[0].values[-1].value:
                 self.decision_graphs[key].graph_id = message.status[0].values[-1].value
-                print 'INFO: Graph id has been changed'
+                print('INFO: Graph id has been changed')
             elif self._current_graph == self.decision_graphs[key]:
                 if not self._update_graph(data['name'], data['status']):
-                    print 'WARNING: Failed to find appropriate graph for update'
+                    print('WARNING: Failed to find appropriate graph for update')
 
     def _load_ui(self, ros_package):
         user_interface_file = path.join(ros_package.get_path('rqt_decision_graph'), 'resource', 'DecisionGraph.ui')
@@ -162,7 +162,7 @@ class GraphWidget(QWidget):
 
     def _reset_graph_state(self, name, status):
         if self._current_graph is not None:
-            for node in self._current_graph.nodes.values():
+            for node in list(self._current_graph.nodes.values()):
                 if name[:len(node.url)] == node.url:
                     node.highlight(True) if 'started' == status else node.highlight(False)
 
@@ -170,7 +170,7 @@ class GraphWidget(QWidget):
         self._lock.acquire()
         is_updated = False
         if self._current_graph is not None:
-            for node in self._current_graph.nodes.values():
+            for node in list(self._current_graph.nodes.values()):
                 if 'started' == status and name[:len(node.url)] == node.url:
                     node.highlight(True)
                     is_updated = True
@@ -207,9 +207,9 @@ class GraphWidget(QWidget):
         self._current_graph.load()
         self._scene.clear()
 
-        for node_item in self._current_graph.nodes.itervalues():
+        for node_item in list(self._current_graph.nodes.values()):
             self._scene.addItem(node_item)
-        for edge_items in self._current_graph.edges.itervalues():
+        for edge_items in list(self._current_graph.edges.values()):
             for edge_item in edge_items:
                 edge_item.add_to_scene(self._scene)
 

@@ -14,7 +14,7 @@
 #include <string>
 #include <sstream>
 
-#define DOT_FILE_EXT ".xot"
+#define DOT_FILE_EXT ".dot"
 
 class Container{
 	static int& id_counter(){static int c; return c; }

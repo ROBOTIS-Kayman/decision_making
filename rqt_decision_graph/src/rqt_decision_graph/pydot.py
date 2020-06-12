@@ -17,7 +17,7 @@ Copyright (c) 2005-2011 Ero Carrera <ero.carrera@gmail.com>
 Distributed under MIT license [http://opensource.org/licenses/mit-license.html].
 """
 
-from __future__ import division, print_function
+
 
 __author__ = 'Ero Carrera'
 __version__ = '1.0.29'
@@ -173,7 +173,7 @@ class frozendict(dict):
         for arg in args:
             if isinstance(arg, dict):
                 arg = copy.copy(arg)
-                for k, v in arg.items():
+                for k, v in list(arg.items()):
                     if isinstance(v, frozendict):
                         arg[k] = v
                     elif isinstance(v, dict):
@@ -271,7 +271,7 @@ def quote_if_necessary(s):
 
     if needs_quotes(s):
         replace = {'"': r'\"', "\n": r'\n', "\r": r'\r'}
-        for (a, b) in replace.items():
+        for (a, b) in list(replace.items()):
             s = s.replace(a, b)
 
         return '"' + s + '"'
@@ -439,7 +439,7 @@ def __find_executables(path):
         was_quoted = True
 
     if os.path.isdir(path):
-        for prg in progs.keys():
+        for prg in list(progs.keys()):
             if progs[prg]:
                 continue
 
@@ -843,7 +843,7 @@ class Node(Common):
 
         node_attr = list()
 
-        for attr, value in sorted(self.obj_dict['attributes'].items(), key=itemgetter(0)):
+        for attr, value in sorted(list(self.obj_dict['attributes'].items()), key=itemgetter(0)):
             if value is not None:
                 node_attr.append('%s=%s' % (attr, quote_if_necessary(value)))
             else:
@@ -1025,7 +1025,7 @@ class Edge(Common):
 
         edge_attr = list()
 
-        for attr, value in sorted(self.obj_dict['attributes'].items(), key=itemgetter(0)):
+        for attr, value in sorted(list(self.obj_dict['attributes'].items()), key=itemgetter(0)):
             if value is not None:
                 edge_attr.append('%s=%s' % (attr, quote_if_necessary(value)))
             else:
@@ -1321,7 +1321,7 @@ class Graph(Common):
 
         node_objs = list()
 
-        for node, obj_dict_list in self.obj_dict['nodes'].items():
+        for node, obj_dict_list in list(self.obj_dict['nodes'].items()):
             node_objs.extend([
                 Node(obj_dict=obj_d)
                 for obj_d
@@ -1440,7 +1440,7 @@ class Graph(Common):
 
         edge_objs = list()
 
-        for edge, obj_dict_list in self.obj_dict['edges'].items():
+        for edge, obj_dict_list in list(self.obj_dict['edges'].items()):
             edge_objs.extend([
                 Edge(obj_dict=obj_d)
                 for obj_d
@@ -1505,7 +1505,7 @@ class Graph(Common):
 
         sgraph_objs = list()
 
-        for sgraph, obj_dict_list in self.obj_dict['subgraphs'].items():
+        for sgraph, obj_dict_list in list(self.obj_dict['subgraphs'].items()):
             sgraph_objs.extend([
                 Subgraph(obj_dict=obj_d)
                 for obj_d
@@ -1518,15 +1518,15 @@ class Graph(Common):
 
         self.obj_dict['parent_graph'] = parent_graph
 
-        for obj_list in self.obj_dict['nodes'].values():
+        for obj_list in list(self.obj_dict['nodes'].values()):
             for obj in obj_list:
                 obj['parent_graph'] = parent_graph
 
-        for obj_list in self.obj_dict['edges'].values():
+        for obj_list in list(self.obj_dict['edges'].values()):
             for obj in obj_list:
                 obj['parent_graph'] = parent_graph
 
-        for obj_list in self.obj_dict['subgraphs'].values():
+        for obj_list in list(self.obj_dict['subgraphs'].values()):
             for obj in obj_list:
                 Graph(obj_dict=obj).set_parent_graph(parent_graph)
 
@@ -1550,7 +1550,7 @@ class Graph(Common):
         else:
             graph.append('%s %s {\n' % (self.obj_dict['type'], self.obj_dict['name']))
 
-        for attr, value in sorted(self.obj_dict['attributes'].items(), key=itemgetter(0)):
+        for attr, value in sorted(list(self.obj_dict['attributes'].items()), key=itemgetter(0)):
             if value is not None:
                 graph.append('%s=%s' % (attr, quote_if_necessary(value)))
             else:
@@ -1561,7 +1561,7 @@ class Graph(Common):
         edges_done = set()
 
         edge_obj_dicts = list()
-        for e in self.obj_dict['edges'].values():
+        for e in list(self.obj_dict['edges'].values()):
             edge_obj_dicts.extend(e)
 
         if edge_obj_dicts:
@@ -1571,11 +1571,11 @@ class Graph(Common):
             edge_src_set, edge_dst_set = set(), set()
 
         node_obj_dicts = list()
-        for e in self.obj_dict['nodes'].values():
+        for e in list(self.obj_dict['nodes'].values()):
             node_obj_dicts.extend(e)
 
         sgraph_obj_dicts = list()
-        for sg in self.obj_dict['subgraphs'].values():
+        for sg in list(self.obj_dict['subgraphs'].values()):
             sgraph_obj_dicts.extend(sg)
 
         obj_list = sorted([

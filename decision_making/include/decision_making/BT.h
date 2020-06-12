@@ -357,7 +357,7 @@ typedef BTNode CurrentNodeType;
 #define __MIN(x,y) ((x)<(y)?(x):(y))
 
 #define BT_SLEEP(time)\
-		for(int i=0;i<__MAX(1,(float(time)/0.5F)) and not isTerminated();i++){ boost::this_thread::sleep(boost::posix_time::milliseconds(1000*__MIN(0.5F,time-0.5F*i))); }
+    for(int i=0;i<__MAX(1,(float(time)/0.5F)) and not isTerminated();i++){ boost::this_thread::sleep(boost::posix_time::milliseconds((int)(1000*__MIN(0.5F,time-0.5F*i)))); }
 
 #define BT_SET_TASK_RESULT(RESULT) \
 		BT_TASK_BGN(___BTUNIQUE_NAME(_lbl_BT_SET_TASK_RESULT_)){ \

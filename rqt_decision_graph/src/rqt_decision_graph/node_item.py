@@ -63,7 +63,7 @@ class NodeItem(GraphItem):
 
         self._graphics_item = ShapeFactory.create(shape, bounding_box)
         if ShapeFactory.message is not None:
-            print ShapeFactory.message
+            print(ShapeFactory.message)
 
         self.addToGroup(self._graphics_item)
 

@@ -9,6 +9,7 @@
 #define EVENTSYSTEM_H_
 
 
+#include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/thread.hpp>
 #include <deque>
 #include <boost/thread/mutex.hpp>
@@ -275,7 +276,8 @@ public:
 		void spin(double rate = EQ_SPINNER_DIF_RATE){
 			while(events.check_external_ok() and not events.isTerminated()){
 				spinOne();
-				boost::this_thread::sleep(boost::posix_time::seconds(1.0/rate));
+        boost::this_thread::sleep(boost::posix_time::seconds((int)(1000.0/rate)));
+//        boost::this_thread::sleep(boost::posix_time::seconds(1));
 			}
 			if(not events.check_external_ok() and not events.isTerminated()){
 				events.close();
@@ -292,7 +294,7 @@ public:
 	void spinOne(){ Spinner s(*this); s.spinOne(); }
 	void spin(double rate=EQ_SPINNER_DIF_RATE){ Spinner s(*this); s.spin(rate); }
 	void async_spin(double rate=EQ_SPINNER_DIF_RATE, double start_delay=0.0){
-		boost::this_thread::sleep(boost::posix_time::seconds(start_delay));
+    boost::this_thread::sleep(boost::posix_time::seconds((int)start_delay));
 		_spinner = boost::shared_ptr<Spinner>(new Spinner (*this));
 		_spinner->start(rate);
 	}

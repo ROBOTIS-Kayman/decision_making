@@ -36,7 +36,7 @@ Note: This is modified version by Cogniteam
 
 from python_qt_binding.QtCore import QPointF, QRectF
 from python_qt_binding.QtGui import QColor
-from pydot import *
+from .pydot import *
 
 POINTS_PER_INCH = 72
 
@@ -73,7 +73,7 @@ class DotToQtGenerator():
         """
         # let pydot imitate pygraphviz api
         attr = {}
-        for name in node.get_attributes().iterkeys():
+        for name in node.get_attributes().keys():
             value = get_unquoted(node, name)
             attr[name] = value
         obj_dic = node.__getattribute__("obj_dict")
@@ -93,12 +93,12 @@ class DotToQtGenerator():
         elif 'name' in node.attr:
             name = node.attr['name']
         else:
-            print("Error, no label defined for node with attr: %s" % node.attr)
+            print(("Error, no label defined for node with attr: %s" % node.attr))
             return None
 
         if name is None:
             # happens on Lucid pygraphviz version
-            print("Error, label is None for node %s, pygraphviz version may be too old." % node)
+            print(("Error, label is None for node %s, pygraphviz version may be too old." % node))
         else:
             name = name.decode('string_escape')
 
@@ -138,7 +138,7 @@ class DotToQtGenerator():
         """
         # let pydot imitate pygraphviz api
         attr = {}
-        for name in edge.get_attributes().iterkeys():
+        for name in edge.get_attributes().keys():
             value = get_unquoted(edge, name)
             attr[name] = value
         edge.attr = attr
@@ -201,7 +201,7 @@ class DotToQtGenerator():
     def get_cluster_node(self, node):
         # let pydot imitate pygraphviz api
         attr = {}
-        for name in node.get_attributes().iterkeys():
+        for name in node.get_attributes().keys():
             value = get_unquoted(node, name)
             attr[name] = value
         obj_dic = node.__getattribute__("obj_dict")
@@ -219,11 +219,11 @@ class DotToQtGenerator():
         elif 'name' in node.attr:
             name = node.attr['name']
         else:
-            print("Error, no label defined for node with attr: %s" % node.attr)
+            print(("Error, no label defined for node with attr: %s" % node.attr))
             return None
         if name is None:
             # happens on Lucid pygraphviz version
-            print("Error, label is None for node %s, pygraphviz version may be too old." % node)
+            print(("Error, label is None for node %s, pygraphviz version may be too old." % node))
 
         bb_width = node.attr['width']
         bb_height = node.attr['height']
@@ -254,7 +254,7 @@ class DotToQtGenerator():
     def get_subgraph_nodes(self, graph, nodes):
         # let pydot imitate pygraphviz api
         attr = {}
-        for name in graph.get_attributes().iterkeys():
+        for name in graph.get_attributes().keys():
             value = get_unquoted(graph, name)
             attr[name] = value
         obj_dic = graph.__getattribute__("obj_dict")

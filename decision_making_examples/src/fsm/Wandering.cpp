@@ -138,7 +138,7 @@ decision_making::TaskResult driveTask(string name, const FSMCallContext& context
             return TaskResult::TERMINATED();
         }
 
-        boost::this_thread::sleep(boost::posix_time::milliseconds(timeToDriveMs / 100.0));
+        boost::this_thread::sleep(boost::posix_time::milliseconds((int)(timeToDriveMs / 100.0)));
     }
 
     eventQueue.riseEvent("/DRIVE_TIMEOUT");
